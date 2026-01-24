@@ -1,4 +1,4 @@
-package com.conceptcoding.interviewquestions.kafka;
+package com.conceptcoding.Concurrency.kafka;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Semaphore;
