@@ -17,7 +17,7 @@ class MyCallable implements Callable<String> {
         for (int i = 0; i < 5; i++) {
             result.append("Callable ").append(name)
                     .append(" is running: ").append(i).append("\n");
-            Thread.sleep(500); // Pause execution for 500 milliseconds
+            Thread.sleep(5000); // Pause execution for 500 milliseconds
         }
         return result.toString(); // Return the result as a String
     }

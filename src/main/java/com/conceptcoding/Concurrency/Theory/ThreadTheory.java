@@ -29,6 +29,8 @@ public class ThreadTheory {
             // Submit Callable tasks to the executor and get Future objects
             Future<String> future1 = executor.submit(callable1);
             Future<String> future2 = executor.submit(callable2);
+            //either execute now or keep it for future execution
+            executor.execute(runnable);
 
             // Get results from Future objects
             System.out.println("Result from first task:");
