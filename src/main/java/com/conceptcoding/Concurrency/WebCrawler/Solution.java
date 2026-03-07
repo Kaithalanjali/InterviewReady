@@ -63,4 +63,59 @@ public class Solution {
         return new ArrayList<>(urlHashMap.keySet());
     }
 }
+/*
+class Solution {
+    private String getHostName(String url){
+        return url.split("/")[2];
+    }
+    public List<String> crawl(String startUrl, HtmlParser htmlParser) {
+        String hostName = getHostName(startUrl);
 
+        List<String> res = new ArrayList<>();
+        ConcurrentHashMap<String, Boolean> visited = new ConcurrentHashMap<>();
+
+        BlockingQueue<String> queue = new LinkedBlockingQueue<>();
+        Deque<Future> tasks = new ArrayDeque<>();
+
+        queue.offer(startUrl);
+
+        ExecutorService executor = Executors.newFixedThreadPool(4, r->{
+            Thread t = new Thread(r);
+            t.setDaemon(true);
+            return t;
+        });
+
+        while(true){
+            String url = queue.poll();
+
+            if(url!=null){
+                if(getHostName(url).equals(hostName) && visited.get(url)==null){
+                    res.add(url);
+                    visited.put(url,true);
+
+                    tasks.add(executor.submit(()->{
+                        List<String> newUrls = htmlParser.getUrls(url);
+                        for(String newUrl:newUrls){
+                            queue.offer(newUrl);
+                        }
+                    }));
+                }
+            }else{
+                if(!tasks.isEmpty()){
+                    Future nextTask = tasks.poll();
+                    try{
+                        nextTask.get();
+                    }catch(InterruptedException | ExecutionException e){
+
+                    }
+
+                }else{
+                    break;
+                }
+            }
+        }
+        return res;
+
+    }
+}
+*/
