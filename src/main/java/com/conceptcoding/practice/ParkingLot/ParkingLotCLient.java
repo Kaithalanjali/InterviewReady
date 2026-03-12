@@ -20,6 +20,7 @@ public class ParkingLotCLient {
         ParkingManagerFactory twoWheelerManager = new TwoWheelParkingSpotManager(twoWheelerSpots);
         ParkingManagerFactory fourWheelerManager = new FourWheelerParkingSpotManager(fourWheelerSpots);
 
+//        ParkingLot parkingLot = new ParkingLot(twoWheelerManager, fourWheelerManager);
 
 
 
