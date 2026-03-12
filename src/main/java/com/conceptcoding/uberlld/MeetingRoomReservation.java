@@ -105,3 +105,17 @@ public class MeetingRoomReservation {
         return true;
     }
 }
+/*
+Time Complexity
+bookMeeting
+O(R log M)
+
+Where:
+
+R = rooms
+M = meetings in room
+cancelMeeting
+O(log M)
+
+TreeMap deletion.
+ */
