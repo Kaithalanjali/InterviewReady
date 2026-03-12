@@ -49,6 +49,7 @@ public class HitCounter {
 
     public HitCounter() {
         queue = new LinkedList<>();
+        lock = new ReentrantLock();
 //        var timestamp = System.currentTimeMillis()  // current time in seconds // current time in seconds
     }
 
