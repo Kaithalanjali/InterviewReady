@@ -186,6 +186,38 @@ public class ClickCounter {
     }
 }
  */
+// rather than synchronizing the whole method we can use Atomic integer
+/*
+import java.util.concurrent.atomic.AtomicInteger;
+
+class HitCounter {
+
+    private AtomicInteger[] visitCounts;
+    private Helper06 helper;
+
+    public void init(int totalPages, Helper06 helper) {
+        this.helper = helper;
+        visitCounts = new AtomicInteger[totalPages];
+
+        for (int i = 0; i < totalPages; i++) {
+            visitCounts[i] = new AtomicInteger(0);
+        }
+
+        helper.print("System initialized with " + totalPages + " pages");
+    }
+
+    public void incrementVisitCount(int pageIndex) {
+        int newCount = visitCounts[pageIndex].incrementAndGet();
+        helper.print("Page " + pageIndex + " incremented to " + newCount);
+    }
+
+    public int getVisitCount(int pageIndex) {
+        int count = visitCounts[pageIndex].get();
+        helper.print("Page " + pageIndex + " count fetched: " + count);
+        return count;
+    }
+}
+ */
 
 //redis solution
 /*
