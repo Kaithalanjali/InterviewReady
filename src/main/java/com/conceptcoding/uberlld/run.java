@@ -25,5 +25,22 @@ public class run {
         System.out.println(rb2.bookMeeting("y", 5, 6));     // returns "M3"
         System.out.println(rb2.cancelMeeting("nope"));       // returns false (no such active meeting)
         System.out.println(rb2.bookMeeting("z", 6, 10));    // returns "A1" (5..5 and 6..10 do not overlap)
+
+        FileSystemShell fs = new FileSystemShell();
+        System.out.println(fs.pwd()); // should print "/"
+        fs.mkdir("/a/b/c");
+        System.out.println(fs.pwd()); // should still print "/"
+        fs.cd("/a/b");
+        System.out.println(fs.pwd()); // should print "/a/b"
+        fs.cd("*");
+        System.out.println(fs.pwd()); // should print "/a/b/c"
+        fs.cd("../*");
+        System.out.println(fs.pwd()); // should print "/a/b/c"
+        fs.cd("/ *");
+        System.out.println(fs.pwd()); // should print "/a/b/c"
+        fs.cd("/nope/*/x");
+        System.out.println(fs.pwd()); // should print "/a/b/c"
+
+
     }
 }
