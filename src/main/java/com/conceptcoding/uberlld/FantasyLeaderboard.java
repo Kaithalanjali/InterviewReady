@@ -1,17 +1,45 @@
 package com.conceptcoding.uberlld;
 
 import java.util.*;
+/*
+31. Design a Leaderboard for Fantasy Teams
 
+Build an in-memory leaderboard for a fantasy-sports style app. Each user creates exactly one team made up of one or more players. As a live match progresses, players receive positive or negative points. A user’s score is the sum of the current scores of all players on that user’s team. You must support querying the Top-K users ranked by score.
+
+Rules
+Every user has exactly one team; teams contain one or more player IDs.
+A player may belong to multiple users’ teams (many-to-many relation).
+Each user’s initial score is 0 (before any player points are applied).
+Player score updates are deltas and may be negative or positive.
+User score = sum of scores of all players currently in that user’s team.
+Leaderboard ordering:
+Primary: user score in descending order (higher is better).
+Tie-break: userId in lexicographically ascending order.
+Methods
+void addUser(String userId, List<String> playerIds)
+userId will always be globally unique and non-blank.
+playerIds will contain at least one element; each playerId is non-blank and valid.
+Effect: registers a new user with their team and an initial score of 0.
+Players may already have accrued points from prior updates; the user’s score should immediately reflect the current player scores after registration.
+void addScore(String playerId, int score)
+Updates the specified player’s cumulative score by the given delta.
+score is an integer in the inclusive range [-1000, 1000].
+All users whose team includes playerId must have their team scores updated accordingly.
+Leaderboard ordering must remain consistent with the updated scores.
+List<String> getTopK(int k)
+k >= 1. If k exceeds the total number of users, return all users.
+Return the list of userId values sorted by:
+Score descending, then
+userId lexicographically ascending to break ties.
+ */
 public class FantasyLeaderboard {
 
-    static class User{
+    static class User {
         String userId;
-        List<String> playerIds;
         int totalScore;
 
-        public User(String userId, List<String> playerIds){
+        public User(String userId) {
             this.userId = userId;
-            this.playerIds = playerIds;
             this.totalScore = 0;
         }
     }
@@ -30,30 +58,31 @@ public class FantasyLeaderboard {
      * Time Complexity: O(1)
      * Space Complexity: O(1)
      */
-    public FantasyLeaderboard(){
+    public FantasyLeaderboard() {
         leaderBoard = new TreeSet<>(userComparator);
         playIdtoUsers = new HashMap<>();
         playerScores = new HashMap<>();
+        users = new HashMap<>();
     }
 
     /**
      * Add a new user with their team of players
      * Time Complexity: O(P * log(U)) where P = number of players in team, U = total users
-     *   - Calculating initial score: O(P) for iterating through playerIds
-     *   - Adding to TreeSet: O(log(U)) for inserting into sorted tree
-     *   - Adding to playIdtoUsers map: O(P) for each player
+     * - Calculating initial score: O(P) for iterating through playerIds
+     * - Adding to TreeSet: O(log(U)) for inserting into sorted tree
+     * - Adding to playIdtoUsers map: O(P) for each player
      * Space Complexity: O(P) for storing the user's player list and map entries
      */
     public void addUser(String userId, List<String> playerIds) {
-        User user = new User(userId, playerIds);
+        User user = new User(userId);
         // Calculate initial score based on current player scores
-        for(String playerId : playerIds) {
+        for (String playerId : playerIds) {
             user.totalScore += playerScores.getOrDefault(playerId, 0);
         }
         users.put(userId, user);
         leaderBoard.add(user);
-        for(String playerId:playerIds){
-            playIdtoUsers.putIfAbsent(playerId, new HashSet<User>());
+        for (String playerId : playerIds) {
+            playIdtoUsers.putIfAbsent(playerId, new HashSet<>());
             playIdtoUsers.get(playerId).add(user);
         }
     }
@@ -61,9 +90,9 @@ public class FantasyLeaderboard {
     /**
      * Update a player's score and recalculate affected users' scores
      * Time Complexity: O(A * log(U)) where A = affected users (users with this player), U = total users
-     *   - HashMap operations: O(1) average
-     *   - For each affected user: O(log(U)) to remove + O(log(U)) to re-add = O(2*log(U))
-     *   - Total: O(A * log(U))
+     * - HashMap operations: O(1) average
+     * - For each affected user: O(log(U)) to remove + O(log(U)) to re-add = O(2*log(U))
+     * - Total: O(A * log(U))
      * Space Complexity: O(1) - only updating existing structures
      */
     public void addScore(String playerId, int score) {
@@ -71,11 +100,11 @@ public class FantasyLeaderboard {
         playerScores.put(playerId, playerScores.getOrDefault(playerId, 0) + score);
 
         Set<User> affectedUsers = playIdtoUsers.get(playerId);
-        if(affectedUsers!=null){
-            for(User user:affectedUsers){
+        if (affectedUsers != null) {
+            for (User user : affectedUsers) {
                 // Remove user from TreeSet before updating score
                 leaderBoard.remove(user);
-                user.totalScore+=score;
+                user.totalScore += score;
                 // Re-add user to TreeSet with updated score
                 leaderBoard.add(user);
             }
@@ -85,7 +114,7 @@ public class FantasyLeaderboard {
     /**
      * Get top K users sorted by score (descending) and userId (ascending for ties)
      * Time Complexity: O(K) where K = requested top users
-     *   - TreeSet iteration is already sorted, so we just iterate up to K elements
+     * - TreeSet iteration is already sorted, so we just iterate up to K elements
      * Space Complexity: O(K) for storing the result list
      */
     public List<String> getTopK(int k) {
