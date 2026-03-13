@@ -134,3 +134,19 @@ public class FantasyLeaderboard {
         return res;
     }
 }
+
+/*
+addUser("uA", ["p1", "p2"])
+addUser("uB", ["p2"])
+getTopK(2)              // ["uA", "uB"]  // both 0; "uA" < "uB"
+
+addScore("p2", 10)      // p2 = 10; uA=10 (p1=0 + p2=10), uB=10
+getTopK(2)              // ["uA", "uB"]  // tie by score, lex by userId
+
+addScore("p1", 3)       // p1 = 3; uA=13, uB=10
+getTopK(1)              // ["uA"]
+
+addScore("p2", -5)      // p2 = 5; uA=8 (3+5), uB=5
+getTopK(5)              // return all users: ["uA", "uB"]
+
+ */
