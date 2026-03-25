@@ -2,45 +2,45 @@ package com.conceptcoding.uberlld;
 
 import java.util.*;
 /*
-6. Design a Hit Counter/Webpage Visits Counter - Multi-Threaded
+Design a Meeting room reservation System
 
-Write code for low level design of a webpage visits counter.
-There are n webpages in a website numbered 0 to n-1.
-Hundreds of users visit webpages of this website simultaneously.
-You have to record visit count for each page and return them when required.
+Design a simple Meeting room reservation System for a fixed list of conference rooms. You will be given the room identifiers up front, and you must support booking and canceling meetings while ensuring no two meetings overlap in the same room. If multiple rooms are free for a requested time, always choose the lexicographically smallest room id. Time ranges are inclusive: a meeting ending at t conflicts with another starting at t in the same room.
+Class name: RoomBooking
+Constructor: RoomBooking(List<String> roomIds)
+Methods:
+String bookMeeting(String meetingId, int startTime, int endTime)
+boolean cancelMeeting(String meetingId)
+Details:
 
-Note :
-- For Java, code will be tested in a MULTI-THREADED environment, so use thread safe data structures and handle synchronization properly.
-- For Python, code will be tested in a single threaded environment
-- There will be at max 1000 webpages
+roomIds are fixed at construction, non-empty strings, and all unique.
+bookMeeting returns the lexicographically smallest available room id for the given inclusive time range [startTime, endTime], or an empty string "" if no room can host it.
+At most one meeting can occur in a room at any moment.
+cancelMeeting returns true only if the meeting with the given meetingId exists and is currently active, and then cancels it, otherwise returns false.
+meetingId values are strings, an id cannot refer to more than one active meeting at a time.
+Examples
+Example 1
+RoomBooking rb = new RoomBooking(Arrays.asList("roomA", "roomB"));
 
-Your solution should implement below methods :
+rb.bookMeeting("m1", 10, 20);   // returns "roomA"
+rb.bookMeeting("m2", 15, 25);   // returns "roomB"
+rb.bookMeeting("m3", 20, 30);   // returns "" (20 conflicts with both rooms)
+rb.cancelMeeting("m1");          // returns true
+rb.bookMeeting("m4", 20, 30);   // returns "roomA" (now free after cancel)
 
-Method : init(int totalPages, Helper06 helper)
-- totalPages is the 'n' we discussed above i.e. total number of webpages in the website.
-- Use this method to initialize your instance variables
-- use helper's methods for printing logs else logs will not be visible.
+Example 2
+RoomBooking rb2 = new RoomBooking(Arrays.asList("Z1", "A1", "M3"));
 
-Method : incrementVisitCount(int pageIndex)
-- increment visit count for webpage at pageIndex by 1.
-
-Method : getVisitCount(int pageIndex)
-- return total visit count for a given page
-
-For the same pageIndex, incrementVisitCount() and getVisitCount() will never be called concurrently.
-This is done to maintain correctness and eventual consistency in the system.
-
-Example :
-init(totalPages = 2, helper = helper)
-
-incrementVisitCount(pageIndex = 0)
-incrementVisitCount(pageIndex = 1)
-incrementVisitCount(pageIndex = 1)
-incrementVisitCount(pageIndex = 1)
-incrementVisitCount(pageIndex = 0)
-
-getVisitCount(pageIndex = 0) : returns 2
-getVisitCount(pageIndex = 1) : returns 3
+rb2.bookMeeting("x", 5, 5);     // returns "A1" (lexicographically smallest)
+rb2.bookMeeting("y", 5, 6);     // returns "M3"
+rb2.cancelMeeting("nope");       // returns false (no such active meeting)
+rb2.bookMeeting("z", 6, 10);    // returns "A1" (5..5 and 6..10 do not overlap)
+Constraints
+1 ≤ number of rooms ≤ 50,000
+0 ≤ startTime ≤ endTime ≤ 10^9
+Total number of operations (bookMeeting + cancelMeeting) ≤ 100,000
+All room ids are unique, non-empty strings of length ≤ 50
+meetingId is a non-empty string of length ≤ 50
+Time ranges are inclusive on both ends
  */
 
 public class MeetingRoomReservation {
