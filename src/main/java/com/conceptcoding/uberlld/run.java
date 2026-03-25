@@ -4,13 +4,13 @@ import java.util.Arrays;
 
 public class run {
     public static void main(String[] args){
-        HitCounter hitCounter = new HitCounter();
-        hitCounter.recordClick(1);
-        hitCounter.recordClick(2);
-        hitCounter.recordClick(3);
-        System.out.println(hitCounter.getRecentClicks(4)); // should print 3
-        System.out.println(hitCounter.getRecentClicks(300)); // should print 3
-        System.out.println(hitCounter.getRecentClicks(301)); // should print 2
+//        HitCounter hitCounter = new HitCounter();
+//        hitCounter.recordClick(1);
+//        hitCounter.recordClick(2);
+//        hitCounter.recordClick(3);
+//        System.out.println(hitCounter.getRecentClicks(4)); // should print 3
+//        System.out.println(hitCounter.getRecentClicks(300)); // should print 3
+//        System.out.println(hitCounter.getRecentClicks(301)); // should print 2
 
         MeetingRoomReservation rb = new MeetingRoomReservation(Arrays.asList("roomA", "roomB"));
         System.out.println(rb.bookMeeting("m1", 10, 20));   // returns "roomA"
