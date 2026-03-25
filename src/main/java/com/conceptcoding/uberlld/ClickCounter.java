@@ -72,34 +72,36 @@ public class ClickCounter {
 class ClickCounter {
 
     private int[] times;
-    private int[] hits;
+    private AtomicInteger[] hits;
 
     public ClickCounter() {
         times = new int[300];
-        hits = new int[300];
+        hits = new AtomicInteger[300];
     }
 
-    public synchronized void recordClick(int timestamp) {
-        int index = timestamp % 300;
+    public void recordClick(int timestamp) {
+        int index = timestamp % WINDOW;
 
-        if (times[index] != timestamp) { //imp
-            times[index] = timestamp;
-            hits[index] = 1;
-        } else {
-            hits[index]++;
-        }
+            synchronized (this) {
+                if (times[index] != timestamp) {
+                    times[index] = timestamp;
+                    hits[index].set(1);
+                } else {
+                    hits[index].incrementAndGet();
+                }
+            }
     }
 
-    public synchronized int getRecentClicks(int timestamp) {
+    public int getRecentClicks(int timestamp) {
         int total = 0;
 
-        for (int i = 0; i < 300; i++) {
-            if (timestamp - times[i] < 300) {
-                total += hits[i];
+            for (int i = 0; i < WINDOW; i++) {
+                if (timestamp - times[i] < WINDOW) {
+                    total += hits[i].get();
+                }
             }
-        }
 
-        return total;
+            return total;
     }
 }
  */
