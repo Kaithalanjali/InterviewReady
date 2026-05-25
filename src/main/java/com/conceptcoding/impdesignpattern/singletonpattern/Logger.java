@@ -2,6 +2,8 @@ package com.conceptcoding.impdesignpattern.singletonpattern;
 
 public class Logger {
     private static volatile Logger instance;
+
+    //private constructor to prevent instantiation
     private void Loggger(){};
 
     public static Logger getInstance(){
